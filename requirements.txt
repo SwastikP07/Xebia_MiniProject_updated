@@ -1,8 +1,7 @@
-streamlit
-pandas
-gdown
-pymupdf
-scikit-learn
-sentence-transformers
-beautifulsoup4
-regex
+streamlit==1.46.1
+pandas==2.3.1
+scikit-learn==1.7.0
+beautifulsoup4==4.13.4
+PyMuPDF==1.26.3
+gdown==5.2.0
+sentence-transformers==5.0.0
