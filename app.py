@@ -1,12 +1,28 @@
 import streamlit as st
 import pandas as pd
+import os
+import gdown
 
 from utils.extract import extract_text_from_pdf, extract_name, extract_skills_from_resume
 from utils.recommend import get_top_jobs
 
-# Load job dataset
-job_df = pd.read_csv("data/jobs_dataset_with_features.csv")
+# === Ensure data/ directory exists ===
+os.makedirs("data", exist_ok=True)
 
+# === Download CSV from Google Drive if not present ===
+csv_path = "data/jobs_dataset_with_features.csv"
+if not os.path.exists(csv_path):
+    # Replace this ID if your file changes
+    gdown.download(
+        id="1--bUAeQBYqc-rtZytUrjODVZVJ_6Ywnj",
+        output=csv_path,
+        quiet=False
+    )
+
+# === Load job dataset ===
+job_df = pd.read_csv(csv_path)
+
+# === Streamlit App ===
 st.set_page_config(page_title="Job Recommendation", layout="centered")
 st.title("📄 Resume-Based Job Recommender")
 
@@ -19,7 +35,7 @@ if uploaded:
         skills = extract_skills_from_resume(text)
         top_jobs = get_top_jobs(skills, job_df, top_n=1)  # Only top 1 job
 
-    st.success(" Analysis complete!")
+    st.success("Analysis complete!")
 
     st.markdown(f"### Name: **{name}**")
 
